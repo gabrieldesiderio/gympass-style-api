@@ -25,6 +25,13 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
     return checkOnSameDate
   }
 
+  async findManyByUserId(userId: string, page: number) {
+    const min = (page - 1) * 20
+    const max = page * 20
+
+    return this.items.filter((item) => item.user_id === userId).slice(min, max)
+  }
+
   async create(data: Prisma.CheckInUncheckedCreateInput) {
     const checkIn = {
       id: randomUUID(),
